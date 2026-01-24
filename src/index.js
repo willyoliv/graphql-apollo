@@ -3,23 +3,40 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 
 const typeDefs = `#graphql
   type Query {
+    user: User!
+    users: [User]!
+  }
+
+  type User {
     id: ID!
-    name: String!
-    age: Int!
-    average: Float!
-    married: Boolean!
-    arrayString: [String!]!
+    userName: String!
   }
 `;
 
 const resolvers = {
   Query: {
-    id: () => '123ioipas-sadiofasdpoif',
-    name: () => 'Samuel',
-    age: () => 27,
-    average: () => 50.55,
-    married: () => true,
-    arrayString: () => ['A', 'B'],
+    user: () => {
+      return {
+        id: 'abcde',
+        userName: 'Will',
+      };
+    },
+    users: () => {
+      return [
+        {
+          id: 'abcde',
+          userName: 'Will',
+        },
+        {
+          id: 'abcde2',
+          userName: 'Will2',
+        },
+        {
+          id: 'abcde3',
+          userName: 'Will3',
+        },
+      ];
+    },
   },
 };
 
