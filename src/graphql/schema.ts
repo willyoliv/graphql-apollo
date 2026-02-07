@@ -1,16 +1,18 @@
 import { gql } from 'graphql-tag';
+import { userTypeDefs } from './user/typedefs';
+import { userResolvers } from './user/resolver';
 
 const rootTypeDefs = gql`
   type Query {
-    hi: String
+    _empty: Boolean
   }
 `;
 
 const rootResolvers = {
   Query: {
-    hi: () => 'Olá mundo',
+    _empty: () => true,
   },
 };
 
-export const typeDefs = [rootTypeDefs];
-export const resolvers = [rootResolvers];
+export const typeDefs = [rootTypeDefs, userTypeDefs];
+export const resolvers = [rootResolvers, userResolvers];
