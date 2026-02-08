@@ -8,7 +8,8 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
-    "format": "prettier --write \"src/**/*.{ts,js,json}\""
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "server": "json-server --watch db.json"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,8 @@
   "dependencies": {
     "@apollo/server": "^5.2.0",
     "graphql": "^16.12.0",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "json-server": "^1.0.0-beta.5"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",
