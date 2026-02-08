@@ -1,10 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { resolvers, typeDefs } from './graphql/schema';
-
-export interface CustomContext {
-  hello: number;
-}
+import type { CustomContext } from './types';
 
 const server = new ApolloServer<CustomContext>({
   typeDefs,

@@ -1,4 +1,4 @@
-import { Resolvers } from '../../generated/graphql';
+import type { Resolvers } from '../../generated/graphql';
 
 type QueryTypes = Required<Resolvers>['Query'];
 

@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { CustomContext } from '../index';
+import { CustomContext } from '../types/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {

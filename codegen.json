@@ -9,7 +9,7 @@
         "typescript-operations"
       ],
       "config": {
-        "contextType": "../index#CustomContext",
+        "contextType": "../types/context#CustomContext",
         "useIndexSignature": true,
         "maybeValue": "T | null"
       }
