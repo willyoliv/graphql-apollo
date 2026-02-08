@@ -9,7 +9,19 @@
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.{ts,js,json}\"",
-    "server": "json-server --watch db.json"
+    "server": "json-server --watch db.json",
+    "generate": "graphql-codegen --config codegen.json",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/graphql/**/*.ts": [
+      "npm run generate",
+      "git add src/generated/graphql.ts"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -21,10 +33,16 @@
     "json-server": "^1.0.0-beta.5"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.1.1",
+    "@graphql-codegen/typescript": "^5.0.7",
+    "@graphql-codegen/typescript-operations": "^5.0.7",
+    "@graphql-codegen/typescript-resolvers": "^5.1.5",
     "@types/node": "^25.2.1",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "nodemon": "^3.1.11",
     "prettier": "^3.8.0",
     "sucrase": "^3.35.1",

@@ -4,9 +4,11 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default [
+  {
+    ignores: ['src/generated/graphql.ts'],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-
   {
     files: ['**/*.ts'],
     languageOptions: {
