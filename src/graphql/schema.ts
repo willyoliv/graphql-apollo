@@ -1,6 +1,8 @@
 import { gql } from 'graphql-tag';
 import { userTypeDefs } from './user/typedefs';
 import { userResolvers } from './user/resolver';
+import { postTypeDefs } from './post/typedefs';
+import { postResolvers } from './post/resolvers';
 
 const rootTypeDefs = gql`
   type Query {
@@ -14,5 +16,5 @@ const rootResolvers = {
   },
 };
 
-export const typeDefs = [rootTypeDefs, userTypeDefs];
-export const resolvers = [rootResolvers, userResolvers];
+export const typeDefs = [rootTypeDefs, userTypeDefs, postTypeDefs];
+export const resolvers = [rootResolvers, userResolvers, postResolvers];
