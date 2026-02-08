@@ -12,7 +12,7 @@ const start = async () => {
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4003 },
     context: async () => ({
-      hello: 123,
+      fetch,
     }),
   });
 
