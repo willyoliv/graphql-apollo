@@ -1,4 +1,4 @@
-import type { Resolvers } from '../../generated/graphql';
+import type { Post, Resolvers } from '../../generated/graphql';
 
 type QueryTypes = Required<Resolvers>['Query'];
 
@@ -17,5 +17,11 @@ export const postResolvers = {
   Query: {
     post,
     posts,
+  },
+  Post: {
+    unixTimestamp: ({ createdAt }: Post) => {
+      const timestamp = new Date(createdAt).getTime() / 1000;
+      return Math.floor(timestamp);
+    },
   },
 };

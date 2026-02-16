@@ -39,6 +39,7 @@ export type Post = {
   id: Scalars['ID']['output'];
   indexRef: Scalars['Int']['output'];
   title: Scalars['String']['output'];
+  unixTimestamp: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -220,6 +221,7 @@ export type PostResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   indexRef?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  unixTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<
