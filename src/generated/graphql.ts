@@ -54,31 +54,10 @@ export type Post = {
   unixTimestamp: Scalars['String']['output'];
 };
 
-export type PostError = {
-  message: Scalars['String']['output'];
-  statusCode: Scalars['Int']['output'];
-};
-
-export type PostNotFoundError = PostError & {
-  __typename?: 'PostNotFoundError';
-  message: Scalars['String']['output'];
-  postId: Scalars['String']['output'];
-  statusCode: Scalars['Int']['output'];
-};
-
-export type PostResult = Post | PostNotFoundError | PostTimeoutError;
-
-export type PostTimeoutError = PostError & {
-  __typename?: 'PostTimeoutError';
-  message: Scalars['String']['output'];
-  statusCode: Scalars['Int']['output'];
-  timeout: Scalars['Int']['output'];
-};
-
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['Boolean']['output']>;
-  post: PostResult;
+  post: Post;
   posts: Array<Post>;
   user: User;
   users: Array<User>;
@@ -230,18 +209,6 @@ export type DirectiveResolverFn<
   info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
-/** Mapping of union types */
-export type ResolversUnionTypes<_RefType extends Record<string, unknown>> =
-  ResolversObject<{
-    PostResult: Post | PostNotFoundError | PostTimeoutError;
-  }>;
-
-/** Mapping of interface types */
-export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> =
-  ResolversObject<{
-    PostError: PostNotFoundError | PostTimeoutError;
-  }>;
-
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   ApiFilterOrder: ApiFilterOrder;
@@ -250,14 +217,6 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Post: ResolverTypeWrapper<Post>;
-  PostError: ResolverTypeWrapper<
-    ResolversInterfaceTypes<ResolversTypes>['PostError']
-  >;
-  PostNotFoundError: ResolverTypeWrapper<PostNotFoundError>;
-  PostResult: ResolverTypeWrapper<
-    ResolversUnionTypes<ResolversTypes>['PostResult']
-  >;
-  PostTimeoutError: ResolverTypeWrapper<PostTimeoutError>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
@@ -270,10 +229,6 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Post: Post;
-  PostError: ResolversInterfaceTypes<ResolversParentTypes>['PostError'];
-  PostNotFoundError: PostNotFoundError;
-  PostResult: ResolversUnionTypes<ResolversParentTypes>['PostResult'];
-  PostTimeoutError: PostTimeoutError;
   Query: Record<PropertyKey, never>;
   String: Scalars['String']['output'];
   User: User;
@@ -290,53 +245,6 @@ export type PostResolvers<
   indexRef?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   unixTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type PostErrorResolvers<
-  ContextType = CustomContext,
-  ParentType extends ResolversParentTypes['PostError'] =
-    ResolversParentTypes['PostError'],
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<
-    'PostNotFoundError' | 'PostTimeoutError',
-    ParentType,
-    ContextType
-  >;
-}>;
-
-export type PostNotFoundErrorResolvers<
-  ContextType = CustomContext,
-  ParentType extends ResolversParentTypes['PostNotFoundError'] =
-    ResolversParentTypes['PostNotFoundError'],
-> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  statusCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type PostResultResolvers<
-  ContextType = CustomContext,
-  ParentType extends ResolversParentTypes['PostResult'] =
-    ResolversParentTypes['PostResult'],
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<
-    'Post' | 'PostNotFoundError' | 'PostTimeoutError',
-    ParentType,
-    ContextType
-  >;
-}>;
-
-export type PostTimeoutErrorResolvers<
-  ContextType = CustomContext,
-  ParentType extends ResolversParentTypes['PostTimeoutError'] =
-    ResolversParentTypes['PostTimeoutError'],
-> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  statusCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  timeout?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<
@@ -346,7 +254,7 @@ export type QueryResolvers<
 > = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   post?: Resolver<
-    ResolversTypes['PostResult'],
+    ResolversTypes['Post'],
     ParentType,
     ContextType,
     RequireFields<QueryPostArgs, 'id'>
@@ -386,10 +294,6 @@ export type UserResolvers<
 
 export type Resolvers<ContextType = CustomContext> = ResolversObject<{
   Post?: PostResolvers<ContextType>;
-  PostError?: PostErrorResolvers<ContextType>;
-  PostNotFoundError?: PostNotFoundErrorResolvers<ContextType>;
-  PostResult?: PostResultResolvers<ContextType>;
-  PostTimeoutError?: PostTimeoutErrorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
