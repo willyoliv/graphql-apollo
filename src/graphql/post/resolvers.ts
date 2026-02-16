@@ -1,9 +1,12 @@
+import { cleanUrlFilterParams } from '../../utils/cleanUrlFilterParams';
 import type { Post, Resolvers } from '../../generated/graphql';
 
 type QueryTypes = Required<Resolvers>['Query'];
 
-const posts: QueryTypes['posts'] = async (_, __, { getPosts }) => {
-  const posts = await getPosts();
+const posts: QueryTypes['posts'] = async (_, { filters }, { getPosts }) => {
+  const cleanFilters = cleanUrlFilterParams(filters);
+  const apiFiltersInput = new URLSearchParams(cleanFilters);
+  const posts = await getPosts('/?' + apiFiltersInput);
   return posts.json();
 };
 

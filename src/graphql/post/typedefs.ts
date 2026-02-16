@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 export const postTypeDefs = gql`
   extend type Query {
     post(id: ID!): Post!
-    posts: [Post!]!
+    posts(filters: ApiFiltersInput): [Post!]!
   }
 
   type Post {

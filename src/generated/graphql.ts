@@ -32,6 +32,13 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type ApiFiltersInput = {
+  _limit?: InputMaybe<Scalars['Int']['input']>;
+  _order?: InputMaybe<Scalars['String']['input']>;
+  _sort?: InputMaybe<Scalars['String']['input']>;
+  _start?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Post = {
   __typename?: 'Post';
   body: Scalars['String']['output'];
@@ -55,8 +62,16 @@ export type QueryPostArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type QueryPostsArgs = {
+  filters?: InputMaybe<ApiFiltersInput>;
+};
+
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryUsersArgs = {
+  filters?: InputMaybe<ApiFiltersInput>;
 };
 
 export type User = {
@@ -191,6 +206,7 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  ApiFiltersInput: ApiFiltersInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -202,6 +218,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  ApiFiltersInput: ApiFiltersInput;
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
@@ -236,14 +253,24 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryPostArgs, 'id'>
   >;
-  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
+  posts?: Resolver<
+    Array<ResolversTypes['Post']>,
+    ParentType,
+    ContextType,
+    Partial<QueryPostsArgs>
+  >;
   user?: Resolver<
     ResolversTypes['User'],
     ParentType,
     ContextType,
     RequireFields<QueryUserArgs, 'id'>
   >;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  users?: Resolver<
+    Array<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    Partial<QueryUsersArgs>
+  >;
 }>;
 
 export type UserResolvers<
