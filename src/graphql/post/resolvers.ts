@@ -5,6 +5,7 @@ import type {
   PostResultResolvers,
   QueryResolvers,
   PostResolvers,
+  PostErrorResolvers,
 } from '../../generated/graphql';
 
 const posts: QueryResolvers['posts'] = async (_, { filters }, { getPosts }) => {
@@ -21,6 +22,16 @@ const post: QueryResolvers['post'] = async (_, { id }, { getPosts }) => {
     return {
       statusCode: response.status,
       message: 'Post not found',
+      postId: id,
+    };
+  }
+
+  /* Simulate the timeout error */
+  if (Math.random() > 0.5) {
+    return {
+      statusCode: 500,
+      message: 'Post timeout',
+      timeout: 123,
     };
   }
 
@@ -30,6 +41,7 @@ const post: QueryResolvers['post'] = async (_, { id }, { getPosts }) => {
     return {
       statusCode: 404,
       message: 'Post not found',
+      postId: id,
     };
   }
 
@@ -38,12 +50,17 @@ const post: QueryResolvers['post'] = async (_, { id }, { getPosts }) => {
 
 const PostResult: PostResultResolvers = {
   __resolveType: (obj) => {
-    if ('statusCode' in obj) {
-      return 'PostNotFoundError';
-    }
-    if ('id' in obj) {
-      return 'Post';
-    }
+    if ('id' in obj) return 'Post';
+    if ('postId' in obj) return 'PostNotFoundError';
+    if ('timeout' in obj) return 'PostTimeoutError';
+    return null;
+  },
+};
+
+const PostError: PostErrorResolvers = {
+  __resolveType: (obj) => {
+    if ('postId' in obj) return 'PostNotFoundError';
+    if ('timeout' in obj) return 'PostTimeoutError';
     return null;
   },
 };
@@ -62,4 +79,5 @@ export const postResolvers: Resolvers = {
   },
   Post,
   PostResult,
+  PostError,
 };
