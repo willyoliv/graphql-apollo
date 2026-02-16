@@ -2,13 +2,13 @@ import type { Resolvers } from '../../generated/graphql';
 
 type QueryTypes = Required<Resolvers>['Query'];
 
-const users: QueryTypes['users'] = async (_, __, { fetch }) => {
-  const users = await fetch('http://localhost:3000/users');
+const users: QueryTypes['users'] = async (_, __, { getUsers }) => {
+  const users = await getUsers();
   return users.json();
 };
 
-const user: QueryTypes['user'] = async (_, { id }, { fetch }) => {
-  const response = await fetch('http://localhost:3000/users/' + id);
+const user: QueryTypes['user'] = async (_, { id }, { getUsers }) => {
+  const response = await getUsers('/' + id);
   const user = await response.json();
   return user;
 };

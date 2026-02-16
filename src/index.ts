@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { resolvers, typeDefs } from './graphql/schema';
 import type { CustomContext } from './types';
+import { context } from './context/context';
 
 const server = new ApolloServer<CustomContext>({
   typeDefs,
@@ -11,9 +12,7 @@ const server = new ApolloServer<CustomContext>({
 const start = async () => {
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4003 },
-    context: async () => ({
-      fetch,
-    }),
+    context,
   });
 
   console.log(`🚀 Server ready at: ${url}`);
