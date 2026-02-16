@@ -32,9 +32,14 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export enum ApiFilterOrder {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+
 export type ApiFiltersInput = {
   _limit?: InputMaybe<Scalars['Int']['input']>;
-  _order?: InputMaybe<Scalars['String']['input']>;
+  _order?: InputMaybe<ApiFilterOrder>;
   _sort?: InputMaybe<Scalars['String']['input']>;
   _start?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -206,6 +211,7 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  ApiFilterOrder: ApiFilterOrder;
   ApiFiltersInput: ApiFiltersInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
