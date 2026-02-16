@@ -7,9 +7,10 @@ const users: QueryTypes['users'] = async (_, __, { fetch }) => {
   return users.json();
 };
 
-const user: QueryTypes['user'] = async (_, __, { fetch }) => {
-  const user = await fetch('http://localhost:3000/users/602');
-  return user.json();
+const user: QueryTypes['user'] = async (_, { id }, { fetch }) => {
+  const response = await fetch('http://localhost:3000/users/' + id);
+  const user = await response.json();
+  return user;
 };
 
 export const userResolvers: QueryTypes = {
