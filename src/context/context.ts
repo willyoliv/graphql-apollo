@@ -1,10 +1,11 @@
 import { CustomContext } from 'types';
-
-const API_URL = 'http://localhost:3000';
+import { getUsers } from '../utils/getUsers';
+import { makeUserDataLoader } from '../graphql/user/dataloader';
 
 export const context = async (): Promise<CustomContext> => {
   return {
-    getUsers: (path = '/') => fetch(API_URL + '/users' + path),
-    getPosts: (path = '/') => fetch(API_URL + '/posts' + path),
+    userDataLoader: makeUserDataLoader(getUsers),
+    getUsers,
+    getPosts: (path = '/') => fetch(process.env.API_URL + '/posts' + path),
   };
 };
