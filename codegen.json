@@ -11,7 +11,10 @@
       "config": {
         "contextType": "../types/context#CustomContext",
         "useIndexSignature": true,
-        "maybeValue": "T | null"
+        "maybeValue": "T | null",
+        "mappers": {
+          "Post": "../models/post.model#PostModel"
+        }
       }
     }
   }

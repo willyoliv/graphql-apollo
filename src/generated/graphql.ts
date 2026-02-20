@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { PostModel } from '../models/post.model';
 import { CustomContext } from '../types/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null;
@@ -51,7 +52,7 @@ export type Post = {
   id: Scalars['ID']['output'];
   indexRef: Scalars['Int']['output'];
   title: Scalars['String']['output'];
-  unixTimestamp: Scalars['String']['output'];
+  user: User;
 };
 
 export type Query = {
@@ -216,7 +217,7 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Post: ResolverTypeWrapper<Post>;
+  Post: ResolverTypeWrapper<PostModel>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
@@ -228,7 +229,7 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
-  Post: Post;
+  Post: PostModel;
   Query: Record<PropertyKey, never>;
   String: Scalars['String']['output'];
   User: User;
@@ -244,7 +245,7 @@ export type PostResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   indexRef?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  unixTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<

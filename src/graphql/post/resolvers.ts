@@ -1,5 +1,9 @@
 import { cleanUrlFilterParams } from '../../utils/cleanUrlFilterParams';
-import type { Resolvers, QueryResolvers } from '../../generated/graphql';
+import type {
+  Resolvers,
+  QueryResolvers,
+  PostResolvers,
+} from '../../generated/graphql';
 
 const posts: QueryResolvers['posts'] = async (_, { filters }, { getPosts }) => {
   const cleanFilters = cleanUrlFilterParams(filters);
@@ -15,9 +19,15 @@ const post: QueryResolvers['post'] = async (_, { id }, { getPosts }) => {
   return post;
 };
 
+const user: PostResolvers['user'] = async (parent, _args, { getUsers }) => {
+  const response = await getUsers('/' + parent.userId);
+  return response.json();
+};
+
 export const postResolvers: Resolvers = {
   Query: {
     post,
     posts,
   },
+  Post: { user },
 };
