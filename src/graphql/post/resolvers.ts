@@ -5,17 +5,18 @@ import type {
   PostResolvers,
 } from '../../generated/graphql';
 
-const posts: QueryResolvers['posts'] = async (_, { filters }, { getPosts }) => {
+const posts: QueryResolvers['posts'] = async (
+  _,
+  { filters },
+  { dataSources },
+) => {
   const cleanFilters = cleanUrlFilterParams(filters);
-  const apiFiltersInput = new URLSearchParams(cleanFilters);
-  const response = await getPosts('/?' + apiFiltersInput);
-  return response.json();
+  const posts = dataSources.postsApi.getPosts(cleanFilters);
+  return posts;
 };
 
-const post: QueryResolvers['post'] = async (_, { id }, { getPosts }) => {
-  const response = await getPosts('/' + id);
-  const post = await response.json();
-
+const post: QueryResolvers['post'] = async (_, { id }, { dataSources }) => {
+  const post = dataSources.postsApi.getPost(id);
   return post;
 };
 

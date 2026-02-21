@@ -1,3 +1,4 @@
+import { PostsApi } from './../graphql/post/datasources';
 import { makeUserDataLoader } from './../graphql/user/dataloader';
 import { makePostDataLoader } from './../graphql/post/dataloader';
 import { CustomContext } from 'types';
@@ -10,5 +11,8 @@ export const context = async (): Promise<CustomContext> => {
     postDataLoader: makePostDataLoader(getPosts),
     getUsers,
     getPosts,
+    dataSources: {
+      postsApi: new PostsApi(),
+    },
   };
 };

@@ -27,6 +27,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/datasource-rest": "^6.4.1",
     "@apollo/server": "^5.2.0",
     "dataloader": "^2.2.3",
     "dotenv": "^17.3.1",
