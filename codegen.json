@@ -13,6 +13,7 @@
         "useIndexSignature": true,
         "maybeValue": "T | null",
         "mappers": {
+          "User": "../models/user.model#UserModel",
           "Post": "../models/post.model#PostModel"
         }
       }
