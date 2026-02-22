@@ -1,19 +1,35 @@
-import { ApiFiltersInput } from './../../generated/graphql';
+import { PostModel } from './../../models/post.model';
+import { makePostDataLoader } from './dataloader';
 import { RESTDataSource } from '@apollo/datasource-rest';
+import DataLoader from 'dataloader';
 
 export class PostsApi extends RESTDataSource {
+  public readonly dataLoader: DataLoader<string, PostModel[]>;
+
   constructor() {
     super();
     this.baseURL = process.env.API_URL + '/posts/';
+    this.dataLoader = makePostDataLoader(this.getPosts.bind(this));
   }
 
-  async getPosts(urlParams?: ApiFiltersInput | null) {
+  async getPosts(urlParams?: URLSearchParams) {
     return this.get('', {
-      params: (urlParams as Record<string, string>) || {},
+      params: urlParams,
+      cacheOptions: {
+        ttl: 60,
+      },
     });
   }
 
   async getPost(id: string) {
-    return this.get(id);
+    return this.get(id, {
+      cacheOptions: {
+        ttl: 60,
+      },
+    });
+  }
+
+  batchLoadByUserId(id: string) {
+    return this.dataLoader.load(id);
   }
 }

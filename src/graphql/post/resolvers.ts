@@ -11,7 +11,8 @@ const posts: QueryResolvers['posts'] = async (
   { dataSources },
 ) => {
   const cleanFilters = cleanUrlFilterParams(filters);
-  const posts = dataSources.postsApi.getPosts(cleanFilters);
+  const apiFiltersInput = new URLSearchParams(cleanFilters);
+  const posts = dataSources.postsApi.getPosts(apiFiltersInput);
   return posts;
 };
 

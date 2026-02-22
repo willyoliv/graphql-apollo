@@ -2,12 +2,13 @@ import { PostModel } from './../../models/post.model';
 import DataLoader from 'dataloader';
 
 export const makePostDataLoader = (
-  getPosts: (path?: string) => Promise<Response>,
+  getPosts: (urlParams: URLSearchParams) => Promise<PostModel[]>,
 ) => {
   return new DataLoader<string, PostModel[]>(async (ids) => {
-    const urlQuery = ids.join('&userId=');
-    const response = await getPosts('?userId=' + urlQuery);
-    const posts = (await response.json()) as PostModel[];
+    const params = new URLSearchParams();
+    ids.forEach((id) => params.append('userId', id));
+
+    const posts = await getPosts(params);
 
     return ids.map((id) => posts.filter((post) => post.userId === id));
   });
