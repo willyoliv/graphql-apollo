@@ -1,13 +1,11 @@
+import { UsersApi } from './../graphql/user/datasources';
 import { PostsApi } from './../graphql/post/datasources';
-import { makeUserDataLoader } from './../graphql/user/dataloader';
 import { CustomContext } from 'types';
-import { getUsers } from '../utils/getUsers';
 
 export const context = async (): Promise<CustomContext> => {
   return {
-    userDataLoader: makeUserDataLoader(getUsers),
-    getUsers,
     dataSources: {
+      usersApi: new UsersApi(),
       postsApi: new PostsApi(),
     },
   };

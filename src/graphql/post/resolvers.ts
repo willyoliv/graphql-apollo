@@ -21,12 +21,8 @@ const post: QueryResolvers['post'] = async (_, { id }, { dataSources }) => {
   return post;
 };
 
-const user: PostResolvers['user'] = async (
-  parent,
-  _args,
-  { userDataLoader },
-) => {
-  return userDataLoader.load(parent.userId);
+const user: PostResolvers['user'] = async (parent, _args, { dataSources }) => {
+  return dataSources.usersApi.batchLoadByPostId(parent.userId);
 };
 
 export const postResolvers: Resolvers = {
