@@ -3,8 +3,10 @@ import type {
   Resolvers,
   QueryResolvers,
   PostResolvers,
+  MutationResolvers,
 } from '../../generated/graphql';
 
+// Query resolvers
 const posts: QueryResolvers['posts'] = async (
   _,
   { filters },
@@ -21,6 +23,16 @@ const post: QueryResolvers['post'] = async (_, { id }, { dataSources }) => {
   return post;
 };
 
+// Mutation resolver
+const createPost: MutationResolvers['createPost'] = async (
+  _,
+  args,
+  { dataSources },
+) => {
+  return dataSources.postsApi.createPost(args.data, dataSources);
+};
+
+// Field resolvers
 const user: PostResolvers['user'] = async (parent, _args, { dataSources }) => {
   return dataSources.usersApi.batchLoadByPostId(parent.userId);
 };
@@ -29,6 +41,9 @@ export const postResolvers: Resolvers = {
   Query: {
     post,
     posts,
+  },
+  Mutation: {
+    createPost,
   },
   Post: { user },
 };

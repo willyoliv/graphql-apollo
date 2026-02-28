@@ -1,3 +1,6 @@
+import { CustomContext } from './../../types/context';
+import { createPostFn } from './utils/post-repository';
+import { CreatePostInput } from './../../generated/graphql';
 import { PostModel } from './../../models/post.model';
 import { makePostDataLoader } from './dataloader';
 import { RESTDataSource } from '@apollo/datasource-rest';
@@ -26,6 +29,16 @@ export class PostsApi extends RESTDataSource {
       cacheOptions: {
         ttl: 60,
       },
+    });
+  }
+
+  async createPost(
+    postData: CreatePostInput,
+    dataSources: CustomContext['dataSources'],
+  ) {
+    const postInfo = await createPostFn(postData, dataSources);
+    return this.post('', {
+      body: postInfo,
     });
   }
 

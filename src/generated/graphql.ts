@@ -31,6 +31,23 @@ export type ApiFiltersInput = {
   _start?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type CreatePostInput = {
+  body: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  _empty?: Maybe<Scalars['Boolean']['output']>;
+  createPost: Post;
+};
+
+
+export type MutationCreatePostArgs = {
+  data: CreatePostInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   body: Scalars['String']['output'];
@@ -158,8 +175,10 @@ export type ResolversTypes = ResolversObject<{
   ApiFilterOrder: ApiFilterOrder;
   ApiFiltersInput: ApiFiltersInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CreatePostInput: CreatePostInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   Post: ResolverTypeWrapper<PostModel>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -170,12 +189,19 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   ApiFiltersInput: ApiFiltersInput;
   Boolean: Scalars['Boolean']['output'];
+  CreatePostInput: CreatePostInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  Mutation: Record<PropertyKey, never>;
   Post: PostModel;
   Query: Record<PropertyKey, never>;
   String: Scalars['String']['output'];
   User: UserModel;
+}>;
+
+export type MutationResolvers<ContextType = CustomContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  _empty?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createPost?: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'data'>>;
 }>;
 
 export type PostResolvers<ContextType = CustomContext, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = ResolversObject<{
@@ -206,6 +232,7 @@ export type UserResolvers<ContextType = CustomContext, ParentType extends Resolv
 }>;
 
 export type Resolvers<ContextType = CustomContext> = ResolversObject<{
+  Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

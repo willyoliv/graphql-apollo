@@ -5,6 +5,7 @@ import type {
   UserResolvers,
 } from '../../generated/graphql';
 
+// Query resolvers
 const users: QueryResolvers['users'] = async (
   _,
   { filters },
@@ -21,6 +22,7 @@ const user: QueryResolvers['user'] = async (_, { id }, { dataSources }) => {
   return user;
 };
 
+// Field resolvers
 const posts: UserResolvers['posts'] = async (
   parent,
   _args,
