@@ -4,6 +4,7 @@ import {
   CreatePostInput,
   ApiFiltersInput,
   InputMaybe,
+  UpdatePostInput,
 } from './../../../generated/graphql';
 import { GraphQLError } from 'graphql';
 import { ApolloServerErrorCode } from '@apollo/server/errors';
@@ -25,6 +26,39 @@ export const createPostFn = async (
   }
 
   return postInfo;
+};
+
+export const validatePostUpdateData = async (
+  postId: string,
+  postData: UpdatePostInput,
+  dataSource: CustomContext['dataSources'],
+) => {
+  if (!postId) {
+    throw new GraphQLError('Missing postId', {
+      extensions: {
+        code: ApolloServerErrorCode.BAD_USER_INPUT,
+        http: { status: 400 },
+      },
+    });
+  }
+
+  const fields = Object.entries(postData);
+  for (const [key, value] of fields) {
+    if (typeof value === 'string' && value.trim() === '') {
+      throw new GraphQLError(`Missing ${key}`, {
+        extensions: {
+          code: ApolloServerErrorCode.BAD_USER_INPUT,
+          argumentName: key,
+        },
+      });
+    }
+  }
+
+  if (postData?.userId) {
+    await userExists(postData?.userId, dataSource);
+  }
+
+  return true;
 };
 
 const userExists = async (

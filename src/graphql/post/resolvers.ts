@@ -32,6 +32,14 @@ const createPost: MutationResolvers['createPost'] = async (
   return dataSources.postsApi.createPost(args.data, dataSources);
 };
 
+const updatePost: MutationResolvers['updatePost'] = async (
+  _,
+  { postId, data },
+  { dataSources },
+) => {
+  return dataSources.postsApi.updatePost(postId, data, dataSources);
+};
+
 // Field resolvers
 const user: PostResolvers['user'] = async (parent, _args, { dataSources }) => {
   return dataSources.usersApi.batchLoadByPostId(parent.userId);
@@ -44,6 +52,7 @@ export const postResolvers: Resolvers = {
   },
   Mutation: {
     createPost,
+    updatePost,
   },
   Post: { user },
 };
